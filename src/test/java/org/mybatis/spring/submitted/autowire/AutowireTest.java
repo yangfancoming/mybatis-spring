@@ -10,16 +10,16 @@ class AutowireTest {
 
   @Test
   void shouldReturnMapper() {
-    try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-        "classpath:org/mybatis/spring/submitted/autowire/spring.xml")) {
-
+    try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:org/mybatis/spring/submitted/autowire/spring.xml")) {
       FooMapper fooMapper = (FooMapper) context.getBean("fooMapper");
       assertThat(fooMapper).isNotNull();
-      fooMapper.executeFoo();
+      String s = fooMapper.executeFoo();
+      System.out.println(s);
 
       BarMapper barMapper = (BarMapper) context.getBean("barMapper");
       assertThat(barMapper).isNotNull();
-      barMapper.executeBar();
+      String s1 = barMapper.executeBar();
+      System.out.println(s1);
     }
 
   }

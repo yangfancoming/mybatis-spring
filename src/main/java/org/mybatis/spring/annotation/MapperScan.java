@@ -22,7 +22,6 @@ import org.springframework.context.annotation.Import;
  * Configuration example:
  * </p>
  * 
- * <pre class="code">
  * &#064;Configuration
  * &#064;MapperScan("org.mybatis.spring.sample.mapper")
  * public class AppConfig {
@@ -44,11 +43,7 @@ import org.springframework.context.annotation.Import;
  *     return sessionFactory.getObject();
  *   }
  * }
- * </pre>
- *
- * @author Michael Lanyon
- * @author Eduardo Macarron
- *
+ *  mybatis-spring 整合注解
  * @since 1.2.0
  * @see MapperScannerRegistrar
  * @see MapperFactoryBean

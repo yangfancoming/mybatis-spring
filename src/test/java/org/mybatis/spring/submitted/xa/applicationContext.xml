@@ -12,17 +12,12 @@
      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
      default-autowire="byName">
 
-	<bean id="userTransactionService" class="com.atomikos.icatch.config.UserTransactionServiceImp"
-		init-method="init" destroy-method="shutdownForce">
+	<bean id="userTransactionService" class="com.atomikos.icatch.config.UserTransactionServiceImp" init-method="init" destroy-method="shutdownForce">
 		<constructor-arg>
 			<!-- Seems these settings make no difference -->
 			<props>
-				<prop key="com.atomikos.icatch.threaded_2pc">
-					true
-				</prop>
-				<prop key="com.atomikos.icatch.serial_jta_transactions">
-					false
-				</prop>
+				<prop key="com.atomikos.icatch.threaded_2pc"> true	</prop>
+				<prop key="com.atomikos.icatch.serial_jta_transactions"> false </prop>
 			</props>
 		</constructor-arg>
 	</bean>
