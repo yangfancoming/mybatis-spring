@@ -28,10 +28,6 @@ import java.util.Set;
  * <p>
  * This functionality was previously a private class of {@link MapperScannerConfigurer}, but was broken out in version
  * 1.2.0.
- *
- * @author Hunter Presnall
- * @author Eduardo Macarron
- * 
  * @see MapperFactoryBean
  * @since 1.2.0
  */
@@ -168,7 +164,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
 
     if (beanDefinitions.isEmpty()) {
       LOGGER.warn(() -> "No MyBatis mapper was found in '" + Arrays.toString(basePackages)
-          + "' package. Please check your configuration.");
+        + "' package. Please check your configuration.");
     } else {
       processBeanDefinitions(beanDefinitions);
     }
@@ -182,19 +178,18 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
       definition = (GenericBeanDefinition) holder.getBeanDefinition();
       String beanClassName = definition.getBeanClassName();
       LOGGER.debug(() -> "Creating MapperFactoryBean with name '" + holder.getBeanName() + "' and '" + beanClassName
-          + "' mapperInterface");
+        + "' mapperInterface");
 
-      // the mapper interface is the original class of the bean
-      // but, the actual class of the bean is MapperFactoryBean
+      // the mapper interface is the original class of the bean  but, the actual class of the bean is MapperFactoryBean
       definition.getConstructorArgumentValues().addGenericArgumentValue(beanClassName); // issue #59
+      // 偷天换日
       definition.setBeanClass(this.mapperFactoryBeanClass);
-
       definition.getPropertyValues().add("addToConfig", this.addToConfig);
 
       boolean explicitFactoryUsed = false;
       if (StringUtils.hasText(this.sqlSessionFactoryBeanName)) {
         definition.getPropertyValues().add("sqlSessionFactory",
-            new RuntimeBeanReference(this.sqlSessionFactoryBeanName));
+          new RuntimeBeanReference(this.sqlSessionFactoryBeanName));
         explicitFactoryUsed = true;
       } else if (this.sqlSessionFactory != null) {
         definition.getPropertyValues().add("sqlSessionFactory", this.sqlSessionFactory);
@@ -204,15 +199,15 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
       if (StringUtils.hasText(this.sqlSessionTemplateBeanName)) {
         if (explicitFactoryUsed) {
           LOGGER.warn(
-              () -> "Cannot use both: sqlSessionTemplate and sqlSessionFactory together. sqlSessionFactory is ignored.");
+            () -> "Cannot use both: sqlSessionTemplate and sqlSessionFactory together. sqlSessionFactory is ignored.");
         }
         definition.getPropertyValues().add("sqlSessionTemplate",
-            new RuntimeBeanReference(this.sqlSessionTemplateBeanName));
+          new RuntimeBeanReference(this.sqlSessionTemplateBeanName));
         explicitFactoryUsed = true;
       } else if (this.sqlSessionTemplate != null) {
         if (explicitFactoryUsed) {
           LOGGER.warn(
-              () -> "Cannot use both: sqlSessionTemplate and sqlSessionFactory together. sqlSessionFactory is ignored.");
+            () -> "Cannot use both: sqlSessionTemplate and sqlSessionFactory together. sqlSessionFactory is ignored.");
         }
         definition.getPropertyValues().add("sqlSessionTemplate", this.sqlSessionTemplate);
         explicitFactoryUsed = true;
@@ -242,8 +237,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
     if (super.checkCandidate(beanName, beanDefinition)) {
       return true;
     } else {
-      LOGGER.warn(() -> "Skipping MapperFactoryBean with name '" + beanName + "' and '"
-          + beanDefinition.getBeanClassName() + "' mapperInterface" + ". Bean already defined with the same name!");
+      LOGGER.warn(() -> "Skipping MapperFactoryBean with name '" + beanName + "' and '"  + beanDefinition.getBeanClassName() + "' mapperInterface" + ". Bean already defined with the same name!");
       return false;
     }
   }
