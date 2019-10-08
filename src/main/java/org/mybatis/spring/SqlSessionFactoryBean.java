@@ -69,7 +69,6 @@ import static org.springframework.util.StringUtils.tokenizeToStringArray;
  */
 public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, InitializingBean, ApplicationListener<ApplicationEvent> {
 
-
   private static final Logger LOGGER = LoggerFactory.getLogger(SqlSessionFactoryBean.class);
 
   private static final ResourcePatternResolver RESOURCE_PATTERN_RESOLVER = new PathMatchingResourcePatternResolver();
@@ -136,10 +135,8 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 
   /**
    * Sets the ObjectWrapperFactory.
-   *
    * @since 1.1.2
-   * @param objectWrapperFactory
-   *          a specified ObjectWrapperFactory
+   * @param objectWrapperFactory a specified ObjectWrapperFactory
    */
   public void setObjectWrapperFactory(ObjectWrapperFactory objectWrapperFactory) {
     this.objectWrapperFactory = objectWrapperFactory;
@@ -147,7 +144,6 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 
   /**
    * Gets the DatabaseIdProvider
-   *
    * @since 1.1.0
    * @return a specified DatabaseIdProvider
    */
@@ -157,10 +153,8 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 
   /**
    * Sets the DatabaseIdProvider. As of version 1.2.2 this variable is not initialized by default.
-   *
    * @since 1.1.0
-   * @param databaseIdProvider
-   *          a DatabaseIdProvider
+   * @param databaseIdProvider  a DatabaseIdProvider
    */
   public void setDatabaseIdProvider(DatabaseIdProvider databaseIdProvider) {
     this.databaseIdProvider = databaseIdProvider;
@@ -229,15 +223,9 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 
   /**
    * Packages to search for type handlers.
-   *
-   * <p>
    * Since 2.0.1, allow to specify a wildcard such as {@code com.example.*.typehandler}.
-   *
    * @since 1.0.1
-   *
-   * @param typeHandlersPackage
-   *          package to scan for type handlers
-   *
+   * @param typeHandlersPackage package to scan for type handlers
    */
   public void setTypeHandlersPackage(String typeHandlersPackage) {
     this.typeHandlersPackage = typeHandlersPackage;
@@ -245,11 +233,8 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 
   /**
    * Set type handlers. They must be annotated with {@code MappedTypes} and optionally with {@code MappedJdbcTypes}
-   *
    * @since 1.0.1
-   *
-   * @param typeHandlers
-   *          Type handler list
+   * @param typeHandlers Type handler list
    */
   public void setTypeHandlers(TypeHandler<?>... typeHandlers) {
     this.typeHandlers = typeHandlers;
@@ -270,11 +255,8 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
   /**
    * If true, a final check is done on Configuration to assure that all mapped statements are fully loaded and there is
    * no one still pending to resolve includes. Defaults to false.
-   *
    * @since 1.0.1
-   *
-   * @param failFast
-   *          enable failFast
+   * @param failFast  enable failFast
    */
   public void setFailFast(boolean failFast) {
     this.failFast = failFast;
@@ -283,9 +265,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
   /**
    * Set the location of the MyBatis {@code SqlSessionFactory} config file. A typical value is
    * "WEB-INF/mybatis-configuration.xml".
-   *
-   * @param configLocation
-   *          a location the MyBatis config file
+   * @param configLocation  a location the MyBatis config file
    */
   public void setConfigLocation(Resource configLocation) {
     this.configLocation = configLocation;
@@ -293,9 +273,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 
   /**
    * Set a customized MyBatis configuration.
-   *
-   * @param configuration
-   *          MyBatis configuration
+   * @param configuration MyBatis configuration
    * @since 1.3.0
    */
   public void setConfiguration(Configuration configuration) {
@@ -303,15 +281,11 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
   }
 
   /**
-   * Set locations of MyBatis mapper files that are going to be merged into the {@code SqlSessionFactory} configuration
-   * at runtime.
-   *
+   * Set locations of MyBatis mapper files that are going to be merged into the {@code SqlSessionFactory} configuration t runtime.
    * This is an alternative to specifying "&lt;sqlmapper&gt;" entries in an MyBatis config file. This property being
    * based on Spring's resource abstraction also allows for specifying resource patterns here: e.g.
    * "classpath*:sqlmap/*-mapper.xml".
-   *
-   * @param mapperLocations
-   *          location of MyBatis mapper files
+   * @param mapperLocations location of MyBatis mapper files
    */
   public void setMapperLocations(Resource... mapperLocations) {
     this.mapperLocations = mapperLocations;
@@ -319,11 +293,8 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 
   /**
    * Set optional properties to be passed into the SqlSession configuration, as alternative to a
-   * {@code &lt;properties&gt;} tag in the configuration xml file. This will be used to resolve placeholders in the
-   * config file.
-   *
-   * @param sqlSessionFactoryProperties
-   *          optional properties for the SqlSessionFactory
+   * {@code &lt;properties&gt;} tag in the configuration xml file. This will be used to resolve placeholders in the config file.
+   * @param sqlSessionFactoryProperties optional properties for the SqlSessionFactory
    */
   public void setConfigurationProperties(Properties sqlSessionFactoryProperties) {
     this.configurationProperties = sqlSessionFactoryProperties;
@@ -331,8 +302,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 
   /**
    * Set the JDBC {@code DataSource} that this instance should manage transactions for. The {@code DataSource} should
-   * match the one used by the {@code SqlSessionFactory}: for example, you could specify the same JNDI DataSource for
-   * both.
+   * match the one used by the {@code SqlSessionFactory}: for example, you could specify the same JNDI DataSource for both.
    *
    * A transactional JDBC {@code Connection} for this {@code DataSource} will be provided to application code accessing
    * this {@code DataSource} directly via {@code DataSourceUtils} or {@code DataSourceTransactionManager}.
@@ -343,9 +313,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
    * {@code DataSource}. If there's nevertheless a {@code TransactionAwareDataSourceProxy} passed in, it will be
    * unwrapped to extract its target {@code DataSource}.
    *
-   * @param dataSource
-   *          a JDBC {@code DataSource}
-   *
+   * @param dataSource  a JDBC {@code DataSource}
    */
   public void setDataSource(DataSource dataSource) {
     if (dataSource instanceof TransactionAwareDataSourceProxy) {
@@ -361,13 +329,9 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 
   /**
    * Sets the {@code SqlSessionFactoryBuilder} to use when creating the {@code SqlSessionFactory}.
-   *
    * This is mainly meant for testing so that mock SqlSessionFactory classes can be injected. By default,
    * {@code SqlSessionFactoryBuilder} creates {@code DefaultSqlSessionFactory} instances.
-   *
-   * @param sqlSessionFactoryBuilder
-   *          a SqlSessionFactoryBuilder
-   *
+   * @param sqlSessionFactoryBuilder a SqlSessionFactoryBuilder
    */
   public void setSqlSessionFactoryBuilder(SqlSessionFactoryBuilder sqlSessionFactoryBuilder) {
     this.sqlSessionFactoryBuilder = sqlSessionFactoryBuilder;
@@ -384,8 +348,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
    * getting an SqlSession through Spring's MyBatis framework will throw an exception if a transaction is active.
    *
    * @see SpringManagedTransactionFactory
-   * @param transactionFactory
-   *          the MyBatis TransactionFactory
+   * @param transactionFactory  the MyBatis TransactionFactory
    */
   public void setTransactionFactory(TransactionFactory transactionFactory) {
     this.transactionFactory = transactionFactory;
@@ -394,9 +357,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
   /**
    * <b>NOTE:</b> This class <em>overrides</em> any {@code Environment} you have set in the MyBatis config file. This is
    * used only as a placeholder name. The default value is {@code SqlSessionFactoryBean.class.getSimpleName()}.
-   *
-   * @param environment
-   *          the environment name
+   * @param environment  the environment name
    */
   public void setEnvironment(String environment) {
     this.environment = environment;
@@ -404,9 +365,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 
   /**
    * Set scripting language drivers.
-   *
-   * @param scriptingLanguageDrivers
-   *          scripting language drivers
+   * @param scriptingLanguageDrivers scripting language drivers
    * @since 2.0.2
    */
   public void setScriptingLanguageDrivers(LanguageDriver... scriptingLanguageDrivers) {
@@ -429,9 +388,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
   public void afterPropertiesSet() throws Exception {
     notNull(dataSource, "Property 'dataSource' is required");
     notNull(sqlSessionFactoryBuilder, "Property 'sqlSessionFactoryBuilder' is required");
-    state((configuration == null && configLocation == null) || !(configuration != null && configLocation != null),
-      "Property 'configuration' and 'configLocation' can not specified with together");
-
+    state((configuration == null && configLocation == null) || !(configuration != null && configLocation != null),"Property 'configuration' and 'configLocation' can not specified with together");
     this.sqlSessionFactory = buildSqlSessionFactory();
   }
 

@@ -19,10 +19,6 @@ import org.w3c.dom.Element;
 
 /**
  * A {#code BeanDefinitionParser} that handles the element scan of the MyBatis. namespace
- * 
- * @author Lishu Luo
- * @author Eduardo Macarron
- *
  * @since 1.2.0
  * @see MapperFactoryBean
  * @see ClassPathMapperScanner
@@ -42,7 +38,6 @@ public class MapperScannerBeanDefinitionParser extends AbstractBeanDefinitionPar
 
   /**
    * {@inheritDoc}
-   * 
    * @since 2.0.2
    */
   @Override
@@ -56,8 +51,7 @@ public class MapperScannerBeanDefinitionParser extends AbstractBeanDefinitionPar
       String annotationClassName = element.getAttribute(ATTRIBUTE_ANNOTATION);
       if (StringUtils.hasText(annotationClassName)) {
         @SuppressWarnings("unchecked")
-        Class<? extends Annotation> annotationClass = (Class<? extends Annotation>) classLoader
-            .loadClass(annotationClassName);
+        Class<? extends Annotation> annotationClass = (Class<? extends Annotation>) classLoader.loadClass(annotationClassName);
         builder.addPropertyValue("annotationClass", annotationClass);
       }
       String markerInterfaceClassName = element.getAttribute(ATTRIBUTE_MARKER_INTERFACE);
@@ -74,8 +68,7 @@ public class MapperScannerBeanDefinitionParser extends AbstractBeanDefinitionPar
       String mapperFactoryBeanClassName = element.getAttribute(ATTRIBUTE_MAPPER_FACTORY_BEAN_CLASS);
       if (StringUtils.hasText(mapperFactoryBeanClassName)) {
         @SuppressWarnings("unchecked")
-        Class<? extends MapperFactoryBean> mapperFactoryBeanClass = (Class<? extends MapperFactoryBean>) classLoader
-            .loadClass(mapperFactoryBeanClassName);
+        Class<? extends MapperFactoryBean> mapperFactoryBeanClass = (Class<? extends MapperFactoryBean>) classLoader.loadClass(mapperFactoryBeanClassName);
         builder.addPropertyValue("mapperFactoryBeanClass", mapperFactoryBeanClass);
       }
     } catch (Exception ex) {

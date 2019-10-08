@@ -7,8 +7,6 @@ import java.util.function.Supplier;
 
 /**
  * Wrapper of {@link Log}, allow log with lambda expressions.
- *
- * @author Putthiphong Boonphong
  */
 public class Logger {
 

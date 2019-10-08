@@ -31,14 +31,11 @@ import org.springframework.dao.support.PersistenceExceptionTranslator;
  * actual SqlSession used is the one associated with the current Spring transaction. In addition, it manages the session
  * life-cycle, including closing, committing or rolling back the session as necessary based on the Spring transaction
  * configuration.
- * <p>
  * The template needs a SqlSessionFactory to create SqlSessions, passed as a constructor argument. It also can be
  * constructed indicating the executor type to be used, if not, the default executor type, defined in the session
  * factory will be used.
- * <p>
  * This template converts MyBatis PersistenceExceptions into unchecked DataAccessExceptions, using, by default, a
  * {@code MyBatisExceptionTranslator}.
- * <p>
  * Because SqlSessionTemplate is thread safe, a single instance can be shared by all DAOs; there should also be a small
  * memory savings by doing this. This pattern can be used in Spring configuration files as follows:
  *
@@ -49,10 +46,6 @@ import org.springframework.dao.support.PersistenceExceptionTranslator;
  * </bean>
  * }
  * </pre>
- *
- * @author Putthiphong Boonphong
- * @author Hunter Presnall
- * @author Eduardo Macarron
  *
  * @see SqlSessionFactory
  * @see MyBatisExceptionTranslator
@@ -69,9 +62,7 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
 
   /**
    * Constructs a Spring managed SqlSession with the {@code SqlSessionFactory} provided as an argument.
-   *
-   * @param sqlSessionFactory
-   *          a factory of SqlSession
+   * @param sqlSessionFactory a factory of SqlSession
    */
   public SqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
     this(sqlSessionFactory, sqlSessionFactory.getConfiguration().getDefaultExecutorType());
@@ -80,11 +71,8 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
   /**
    * Constructs a Spring managed SqlSession with the {@code SqlSessionFactory} provided as an argument and the given
    * {@code ExecutorType} {@code ExecutorType} cannot be changed once the {@code SqlSessionTemplate} is constructed.
-   *
-   * @param sqlSessionFactory
-   *          a factory of SqlSession
-   * @param executorType
-   *          an executor type on session
+   * @param sqlSessionFactory a factory of SqlSession
+   * @param executorType an executor type on session
    */
   public SqlSessionTemplate(SqlSessionFactory sqlSessionFactory, ExecutorType executorType) {
     this(sqlSessionFactory, executorType,
@@ -97,15 +85,11 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
    * MyBatis can be custom translated to a {@code RuntimeException} The {@code SQLExceptionTranslator} can also be null
    * and thus no exception translation will be done and MyBatis exceptions will be thrown
    *
-   * @param sqlSessionFactory
-   *          a factory of SqlSession
-   * @param executorType
-   *          an executor type on session
-   * @param exceptionTranslator
-   *          a translator of exception
+   * @param sqlSessionFactory  a factory of SqlSession
+   * @param executorType  an executor type on session
+   * @param exceptionTranslator a translator of exception
    */
-  public SqlSessionTemplate(SqlSessionFactory sqlSessionFactory, ExecutorType executorType,
-      PersistenceExceptionTranslator exceptionTranslator) {
+  public SqlSessionTemplate(SqlSessionFactory sqlSessionFactory, ExecutorType executorType, PersistenceExceptionTranslator exceptionTranslator) {
 
     notNull(sqlSessionFactory, "Property 'sqlSessionFactory' is required");
     notNull(executorType, "Property 'executorType' is required");
@@ -113,8 +97,7 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
     this.sqlSessionFactory = sqlSessionFactory;
     this.executorType = executorType;
     this.exceptionTranslator = exceptionTranslator;
-    this.sqlSessionProxy = (SqlSession) newProxyInstance(SqlSessionFactory.class.getClassLoader(),
-        new Class[] { SqlSession.class }, new SqlSessionInterceptor());
+    this.sqlSessionProxy = (SqlSession) newProxyInstance(SqlSessionFactory.class.getClassLoader(), new Class[] { SqlSession.class }, new SqlSessionInterceptor());
   }
 
   public SqlSessionFactory getSqlSessionFactory() {
@@ -129,217 +112,163 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
     return this.exceptionTranslator;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public <T> T selectOne(String statement) {
     return this.sqlSessionProxy.selectOne(statement);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public <T> T selectOne(String statement, Object parameter) {
     return this.sqlSessionProxy.selectOne(statement, parameter);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public <K, V> Map<K, V> selectMap(String statement, String mapKey) {
     return this.sqlSessionProxy.selectMap(statement, mapKey);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public <K, V> Map<K, V> selectMap(String statement, Object parameter, String mapKey) {
     return this.sqlSessionProxy.selectMap(statement, parameter, mapKey);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public <K, V> Map<K, V> selectMap(String statement, Object parameter, String mapKey, RowBounds rowBounds) {
     return this.sqlSessionProxy.selectMap(statement, parameter, mapKey, rowBounds);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public <T> Cursor<T> selectCursor(String statement) {
     return this.sqlSessionProxy.selectCursor(statement);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public <T> Cursor<T> selectCursor(String statement, Object parameter) {
     return this.sqlSessionProxy.selectCursor(statement, parameter);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public <T> Cursor<T> selectCursor(String statement, Object parameter, RowBounds rowBounds) {
     return this.sqlSessionProxy.selectCursor(statement, parameter, rowBounds);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public <E> List<E> selectList(String statement) {
     return this.sqlSessionProxy.selectList(statement);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public <E> List<E> selectList(String statement, Object parameter) {
     return this.sqlSessionProxy.selectList(statement, parameter);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public <E> List<E> selectList(String statement, Object parameter, RowBounds rowBounds) {
     return this.sqlSessionProxy.selectList(statement, parameter, rowBounds);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public void select(String statement, ResultHandler handler) {
     this.sqlSessionProxy.select(statement, handler);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public void select(String statement, Object parameter, ResultHandler handler) {
     this.sqlSessionProxy.select(statement, parameter, handler);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public void select(String statement, Object parameter, RowBounds rowBounds, ResultHandler handler) {
     this.sqlSessionProxy.select(statement, parameter, rowBounds, handler);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public int insert(String statement) {
     return this.sqlSessionProxy.insert(statement);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public int insert(String statement, Object parameter) {
     return this.sqlSessionProxy.insert(statement, parameter);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public int update(String statement) {
     return this.sqlSessionProxy.update(statement);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public int update(String statement, Object parameter) {
     return this.sqlSessionProxy.update(statement, parameter);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public int delete(String statement) {
     return this.sqlSessionProxy.delete(statement);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public int delete(String statement, Object parameter) {
     return this.sqlSessionProxy.delete(statement, parameter);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public <T> T getMapper(Class<T> type) {
     return getConfiguration().getMapper(type, this);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public void commit() {
     throw new UnsupportedOperationException("Manual commit is not allowed over a Spring managed SqlSession");
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public void commit(boolean force) {
     throw new UnsupportedOperationException("Manual commit is not allowed over a Spring managed SqlSession");
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public void rollback() {
     throw new UnsupportedOperationException("Manual rollback is not allowed over a Spring managed SqlSession");
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public void rollback(boolean force) {
     throw new UnsupportedOperationException("Manual rollback is not allowed over a Spring managed SqlSession");
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public void close() {
     throw new UnsupportedOperationException("Manual close is not allowed over a Spring managed SqlSession");
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public void clearCache() {
     this.sqlSessionProxy.clearCache();
@@ -354,9 +283,7 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
     return this.sqlSessionFactory.getConfiguration();
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public Connection getConnection() {
     return this.sqlSessionProxy.getConnection();
@@ -364,9 +291,7 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
 
   /**
    * {@inheritDoc}
-   *
    * @since 1.0.2
-   *
    */
   @Override
   public List<BatchResult> flushStatements() {

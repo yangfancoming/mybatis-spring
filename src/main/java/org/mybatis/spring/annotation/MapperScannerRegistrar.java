@@ -26,11 +26,6 @@ import org.springframework.util.StringUtils;
  * A {@link ImportBeanDefinitionRegistrar} to allow annotation configuration of MyBatis mapper scanning. Using
  * an @Enable annotation allows beans to be registered via @Component configuration, whereas implementing
  * {@code BeanDefinitionRegistryPostProcessor} will work for XML configuration.
- *
- * @author Michael Lanyon
- * @author Eduardo Macarron
- * @author Putthiphong Boonphong
- *
  * @see MapperFactoryBean
  * @see ClassPathMapperScanner
  * @since 1.2.0
@@ -39,7 +34,6 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
 
   /**
    * {@inheritDoc}
-   * 
    * @deprecated Since 2.0.2, this method not used never.
    */
   @Override
@@ -53,8 +47,7 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
    */
   @Override
   public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-    AnnotationAttributes mapperScanAttrs = AnnotationAttributes
-        .fromMap(importingClassMetadata.getAnnotationAttributes(MapperScan.class.getName()));
+    AnnotationAttributes mapperScanAttrs = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(MapperScan.class.getName()));
     if (mapperScanAttrs != null) {
       registerBeanDefinitions(mapperScanAttrs, registry, generateBaseBeanName(importingClassMetadata, 0));
     }
@@ -111,7 +104,6 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
     }
 
     builder.addPropertyValue("basePackage", StringUtils.collectionToCommaDelimitedString(basePackages));
-
     registry.registerBeanDefinition(beanName, builder.getBeanDefinition());
 
   }
@@ -122,23 +114,20 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
 
   /**
    * A {@link MapperScannerRegistrar} for {@link MapperScans}.
-   * 
    * @since 2.0.0
    */
   static class RepeatingRegistrar extends MapperScannerRegistrar {
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-      AnnotationAttributes mapperScansAttrs = AnnotationAttributes
-          .fromMap(importingClassMetadata.getAnnotationAttributes(MapperScans.class.getName()));
+      AnnotationAttributes mapperScansAttrs = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(MapperScans.class.getName()));
       if (mapperScansAttrs != null) {
         AnnotationAttributes[] annotations = mapperScansAttrs.getAnnotationArray("value");
         for (int i = 0; i < annotations.length; i++) {
           registerBeanDefinitions(annotations[i], registry, generateBaseBeanName(importingClassMetadata, i));
         }
       }
+
     }
   }
 
