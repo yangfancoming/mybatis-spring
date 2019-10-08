@@ -105,13 +105,14 @@
       <version>${mybatis.version}</version>
       <scope>provided</scope>
     </dependency>
-
+    <!-- spring-context -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
       <version>${spring.version}</version>
       <scope>provided</scope>
     </dependency>
+    <!-- spring-jdbc -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
