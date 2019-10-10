@@ -86,7 +86,6 @@ public class MapperScannerBeanDefinitionParser extends AbstractBeanDefinitionPar
 
   /**
    * {@inheritDoc}
-   * 
    * @since 2.0.2
    */
   @Override

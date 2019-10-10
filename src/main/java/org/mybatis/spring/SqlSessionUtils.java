@@ -40,13 +40,10 @@ public final class SqlSessionUtils {
   /**
    * Creates a new MyBatis {@code SqlSession} from the {@code SqlSessionFactory} provided as a parameter and using its
    * {@code DataSource} and {@code ExecutorType}
-   *
-   * @param sessionFactory
-   *          a MyBatis {@code SqlSessionFactory} to create new sessions
+   * @param sessionFactory  a MyBatis {@code SqlSessionFactory} to create new sessions
    * @return a MyBatis {@code SqlSession}
    * @throws TransientDataAccessResourceException
-   *           if a transaction is active and the {@code SqlSessionFactory} is not using a
-   *           {@code SpringManagedTransactionFactory}
+   *           if a transaction is active and the {@code SqlSessionFactory} is not using a {@code SpringManagedTransactionFactory}
    */
   public static SqlSession getSqlSession(SqlSessionFactory sessionFactory) {
     ExecutorType executorType = sessionFactory.getConfiguration().getDefaultExecutorType();
@@ -92,8 +89,7 @@ public final class SqlSessionUtils {
    * @param exceptionTranslator persistenceExceptionTranslator used for registration.
    * @param session sqlSession used for registration.
    */
-  private static void registerSessionHolder(SqlSessionFactory sessionFactory, ExecutorType executorType,
-      PersistenceExceptionTranslator exceptionTranslator, SqlSession session) {
+  private static void registerSessionHolder(SqlSessionFactory sessionFactory, ExecutorType executorType,PersistenceExceptionTranslator exceptionTranslator, SqlSession session) {
     SqlSessionHolder holder;
     if (TransactionSynchronizationManager.isSynchronizationActive()) {
       Environment environment = sessionFactory.getConfiguration().getEnvironment();
@@ -181,7 +177,6 @@ public final class SqlSessionUtils {
     public SqlSessionSynchronization(SqlSessionHolder holder, SqlSessionFactory sessionFactory) {
       notNull(holder, "Parameter 'holder' must be not null");
       notNull(sessionFactory, "Parameter 'sessionFactory' must be not null");
-
       this.holder = holder;
       this.sessionFactory = sessionFactory;
     }

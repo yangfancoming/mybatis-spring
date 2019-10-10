@@ -25,9 +25,7 @@ import java.util.Set;
  * A {@link ClassPathBeanDefinitionScanner} that registers Mappers by {@code basePackage}, {@code annotationClass}, or
  * {@code markerInterface}. If an {@code annotationClass} and/or {@code markerInterface} is specified, only the
  * specified types will be searched (searching for all interfaces will be disabled).
- * <p>
- * This functionality was previously a private class of {@link MapperScannerConfigurer}, but was broken out in version
- * 1.2.0.
+ * This functionality was previously a private class of {@link MapperScannerConfigurer}, but was broken out in version 1.2.0.
  * @see MapperFactoryBean
  * @since 1.2.0
  */
@@ -67,12 +65,8 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
 
   /**
    * Set whether enable lazy initialization for mapper bean.
-   * <p>
    * Default is {@code false}.
-   * </p>
-   *
-   * @param lazyInitialization
-   *          Set the @{code true} to enable
+   * @param lazyInitialization Set the @{code true} to enable
    * @since 2.0.2
    */
   public void setLazyInitialization(boolean lazyInitialization) {
@@ -109,9 +103,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
 
   /**
    * Set the {@code MapperFactoryBean} class.
-   *
-   * @param mapperFactoryBeanClass
-   *          the {@code MapperFactoryBean} class
+   * @param mapperFactoryBeanClass  the {@code MapperFactoryBean} class
    * @since 2.0.1
    */
   public void setMapperFactoryBeanClass(Class<? extends MapperFactoryBean> mapperFactoryBeanClass) {
@@ -177,8 +169,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
     for (BeanDefinitionHolder holder : beanDefinitions) {
       definition = (GenericBeanDefinition) holder.getBeanDefinition();
       String beanClassName = definition.getBeanClassName();
-      LOGGER.debug(() -> "Creating MapperFactoryBean with name '" + holder.getBeanName() + "' and '" + beanClassName
-        + "' mapperInterface");
+      LOGGER.debug(() -> "Creating MapperFactoryBean with name '" + holder.getBeanName() + "' and '" + beanClassName + "' mapperInterface");
 
       // the mapper interface is the original class of the bean  but, the actual class of the bean is MapperFactoryBean
       definition.getConstructorArgumentValues().addGenericArgumentValue(beanClassName); // issue #59

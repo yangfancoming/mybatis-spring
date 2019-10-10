@@ -95,7 +95,6 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
   }
 
   // ------------- mutators --------------
-
   /**
    * Sets the mapper interface of the MyBatis mapper
    * @param mapperInterface class of the interface
@@ -113,8 +112,7 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
   }
 
   /**
-   * If addToConfig is false the mapper will not be added to MyBatis. This means it must have been included in
-   * mybatis-config.xml.
+   * If addToConfig is false the mapper will not be added to MyBatis. This means it must have been included in mybatis-config.xml.
    * If it is true, the mapper will be added to MyBatis in the case it is not already registered.
    * By default addToConfig is true.
    * @param addToConfig a flag that whether add mapper to MyBatis or not

@@ -15,9 +15,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.batch.item.support.AbstractItemCountingItemStreamItemReader;
 import org.springframework.beans.factory.InitializingBean;
 
-/**
- * @author Guillaume Darmont / guillaume@dropinocean.com
- */
+
 public class MyBatisCursorItemReader<T> extends AbstractItemCountingItemStreamItemReader<T> implements InitializingBean {
 
   private String queryId;

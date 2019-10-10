@@ -35,9 +35,7 @@ public class MyBatisPagingItemReader<T> extends AbstractPagingItemReader<T> {
 
   /**
    * Public setter for {@link SqlSessionFactory} for injection purposes.
-   *
-   * @param sqlSessionFactory
-   *          a factory object for the {@link SqlSession}.
+   * @param sqlSessionFactory a factory object for the {@link SqlSession}.
    */
   public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
     this.sqlSessionFactory = sqlSessionFactory;

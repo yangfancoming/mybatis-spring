@@ -242,11 +242,8 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 
   /**
    * List of type aliases to register. They can be annotated with {@code Alias}
-   *
    * @since 1.0.1
-   *
-   * @param typeAliases
-   *          Type aliases list
+   * @param typeAliases Type aliases list
    */
   public void setTypeAliases(Class<?>... typeAliases) {
     this.typeAliases = typeAliases;
@@ -312,7 +309,6 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
    * {@code TransactionAwareDataSourceProxy}, while the transaction manager needs to work on the underlying target
    * {@code DataSource}. If there's nevertheless a {@code TransactionAwareDataSourceProxy} passed in, it will be
    * unwrapped to extract its target {@code DataSource}.
-   *
    * @param dataSource  a JDBC {@code DataSource}
    */
   public void setDataSource(DataSource dataSource) {
@@ -560,11 +556,9 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 
   private Set<Class<?>> scanClasses(String packagePatterns, Class<?> assignableType) throws IOException {
     Set<Class<?>> classes = new HashSet<>();
-    String[] packagePatternArray = tokenizeToStringArray(packagePatterns,
-      ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
+    String[] packagePatternArray = tokenizeToStringArray(packagePatterns,ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
     for (String packagePattern : packagePatternArray) {
-      Resource[] resources = RESOURCE_PATTERN_RESOLVER.getResources(ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX
-        + ClassUtils.convertClassNameToResourcePath(packagePattern) + "/**/*.class");
+      Resource[] resources = RESOURCE_PATTERN_RESOLVER.getResources(ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + ClassUtils.convertClassNameToResourcePath(packagePattern) + "/**/*.class");
       for (Resource resource : resources) {
         try {
           ClassMetadata classMetadata = METADATA_READER_FACTORY.getMetadataReader(resource).getClassMetadata();

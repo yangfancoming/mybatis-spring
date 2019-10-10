@@ -24,9 +24,7 @@ public class MyBatisBatchItemWriterBuilder<T> {
 
   /**
    * Set the {@link SqlSessionTemplate} to be used by writer for database access.
-   *
-   * @param sqlSessionTemplate
-   *          the {@link SqlSessionTemplate} to be used by writer for database access
+   * @param sqlSessionTemplate the {@link SqlSessionTemplate} to be used by writer for database access
    * @return this instance for method chaining
    * @see MyBatisBatchItemWriter#setSqlSessionTemplate(SqlSessionTemplate)
    */

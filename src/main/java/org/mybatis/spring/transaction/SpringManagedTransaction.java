@@ -16,8 +16,8 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
- * {@code SpringManagedTransaction} handles the lifecycle of a JDBC connection. It retrieves a connection from Spring's
- * transaction manager and returns it back to it when it is no longer needed.
+ * {@code SpringManagedTransaction} handles the lifecycle of a JDBC connection.
+ * It retrieves a connection from Spring's transaction manager and returns it back to it when it is no longer needed.
  * If Spring's transaction handling is active it will no-op all commit/rollback/close calls assuming that the Spring
  * transaction manager will do the job.
  * If it is not it will behave like {@code JdbcTransaction}.
@@ -51,8 +51,7 @@ public class SpringManagedTransaction implements Transaction {
   }
 
   /**
-   * Gets a connection from Spring transaction manager and discovers if this {@code Transaction} should manage
-   * connection or let it to Spring.
+   * Gets a connection from Spring transaction manager and discovers if this {@code Transaction} should manage  connection or let it to Spring.
    * It also reads autocommit setting because when using Spring Transaction MyBatis thinks that autocommit is always
    * false and will always call commit/rollback so we need to no-op that calls.
    */
@@ -60,9 +59,7 @@ public class SpringManagedTransaction implements Transaction {
     this.connection = DataSourceUtils.getConnection(this.dataSource);
     this.autoCommit = this.connection.getAutoCommit();
     this.isConnectionTransactional = DataSourceUtils.isConnectionTransactional(this.connection, this.dataSource);
-
-    LOGGER.debug(() -> "JDBC Connection [" + this.connection + "] will"
-        + (this.isConnectionTransactional ? " " : " not ") + "be managed by Spring");
+    LOGGER.debug(() -> "JDBC Connection [" + this.connection + "] will" + (this.isConnectionTransactional ? " " : " not ") + "be managed by Spring");
   }
 
   /**
