@@ -1,27 +1,21 @@
 
 package org.mybatis.spring.mapper;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
-
+import com.mockrunner.mock.jdbc.MockConnection;
+import com.mockrunner.mock.jdbc.MockDataSource;
 import org.apache.ibatis.mapping.Environment;
-import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mybatis.spring.AbstractMyBatisSpringTest;
-import org.mybatis.spring.MyBatisSystemException;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.TestMapper;
+import org.mybatis.spring.*;
 import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import com.mockrunner.mock.jdbc.MockConnection;
-import com.mockrunner.mock.jdbc.MockDataSource;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class MapperFactoryBeanTest extends AbstractMyBatisSpringTest {
 
@@ -36,7 +30,6 @@ class MapperFactoryBeanTest extends AbstractMyBatisSpringTest {
   @Test
   void testBasicUsage() throws Exception {
     find();
-
     assertCommit(); // SqlSesssionTemplate autocommits
     assertSingleConnection();
     assertExecuteCount(1);
@@ -178,7 +171,6 @@ class MapperFactoryBeanTest extends AbstractMyBatisSpringTest {
       assertThat(mockConnection.getNumberRollbacks()).as("should not call rollback on Connection").isEqualTo(0);
       assertCommitSession();
     } finally {
-
       sqlSessionFactory.getConfiguration().setEnvironment(original);
     }
   }

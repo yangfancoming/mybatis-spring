@@ -72,7 +72,7 @@ import org.springframework.util.StringUtils;
  * @see ClassPathMapperScanner
  */
 public class MapperScannerConfigurer
-    implements BeanDefinitionRegistryPostProcessor, InitializingBean, ApplicationContextAware, BeanNameAware {
+  implements BeanDefinitionRegistryPostProcessor, InitializingBean, ApplicationContextAware, BeanNameAware {
 
   private String basePackage;
 
@@ -293,7 +293,7 @@ public class MapperScannerConfigurer
     }
     scanner.registerFilters();
     scanner.scan(
-        StringUtils.tokenizeToStringArray(this.basePackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
+      StringUtils.tokenizeToStringArray(this.basePackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
   }
 
   /*
@@ -306,9 +306,7 @@ public class MapperScannerConfigurer
     Map<String, PropertyResourceConfigurer> prcs = applicationContext.getBeansOfType(PropertyResourceConfigurer.class);
 
     if (!prcs.isEmpty() && applicationContext instanceof ConfigurableApplicationContext) {
-      BeanDefinition mapperScannerBean = ((ConfigurableApplicationContext) applicationContext).getBeanFactory()
-          .getBeanDefinition(beanName);
-
+      BeanDefinition mapperScannerBean = ((ConfigurableApplicationContext) applicationContext).getBeanFactory().getBeanDefinition(beanName);
       // PropertyResourceConfigurer does not expose any methods to explicitly perform
       // property placeholder substitution. Instead, create a BeanFactory that just
       // contains this mapper scanner and post process the factory.
@@ -328,11 +326,11 @@ public class MapperScannerConfigurer
     }
     this.basePackage = Optional.ofNullable(this.basePackage).map(getEnvironment()::resolvePlaceholders).orElse(null);
     this.sqlSessionFactoryBeanName = Optional.ofNullable(this.sqlSessionFactoryBeanName)
-        .map(getEnvironment()::resolvePlaceholders).orElse(null);
+      .map(getEnvironment()::resolvePlaceholders).orElse(null);
     this.sqlSessionTemplateBeanName = Optional.ofNullable(this.sqlSessionTemplateBeanName)
-        .map(getEnvironment()::resolvePlaceholders).orElse(null);
+      .map(getEnvironment()::resolvePlaceholders).orElse(null);
     this.lazyInitialization = Optional.ofNullable(this.lazyInitialization).map(getEnvironment()::resolvePlaceholders)
-        .orElse(null);
+      .orElse(null);
   }
 
   private Environment getEnvironment() {

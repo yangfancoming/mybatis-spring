@@ -29,21 +29,20 @@ import org.springframework.stereotype.Component;
 
 import com.mockrunner.mock.jdbc.MockDataSource;
 
-class MapperScannerConfigurerTest {
+public class MapperScannerConfigurerTest {
+
   private GenericApplicationContext applicationContext;
 
   @BeforeEach
-  void setupContext() {
+  public void setupContext() {
     applicationContext = new GenericApplicationContext();
 
-    // add the mapper scanner as a bean definition rather than explicitly setting a
-    // postProcessor on the context so initialization follows the same code path as reading from
-    // an XML config file
+    // add the mapper scanner as a bean definition rather than explicitly setting a postProcessor on the context so initialization follows the same code path as reading from an XML config file
+    // 将mapper scanner添加为bean定义，而不是在上下文中显式设置后处理器，以便初始化遵循与从xml配置文件读取相同的代码路径
     GenericBeanDefinition definition = new GenericBeanDefinition();
     definition.setBeanClass(MapperScannerConfigurer.class);
     definition.getPropertyValues().add("basePackage", "org.mybatis.spring.mapper");
     applicationContext.registerBeanDefinition("mapperScanner", definition);
-
     setupSqlSessionFactory("sqlSessionFactory");
 
     // assume support for autowiring fields is added by MapperScannerConfigurer via
@@ -53,7 +52,6 @@ class MapperScannerConfigurerTest {
   private void startContext() {
     applicationContext.refresh();
     applicationContext.start();
-
     // this will throw an exception if the beans cannot be found
     applicationContext.getBean("sqlSessionFactory");
   }
@@ -174,10 +172,7 @@ class MapperScannerConfigurerTest {
     constructorArgs.addGenericArgumentValue(new RuntimeBeanReference("sqlSessionFactory"));
     definition.setConstructorArgumentValues(constructorArgs);
     applicationContext.registerBeanDefinition("sqlSessionTemplate", definition);
-
-    applicationContext.getBeanDefinition("mapperScanner").getPropertyValues().add("sqlSessionTemplateBeanName",
-        "sqlSessionTemplate");
-
+    applicationContext.getBeanDefinition("mapperScanner").getPropertyValues().add("sqlSessionTemplateBeanName","sqlSessionTemplate");
     startContext();
 
     // all interfaces with methods should be loaded
@@ -192,8 +187,7 @@ class MapperScannerConfigurerTest {
     setupSqlSessionFactory("sqlSessionFactory2");
 
     // use a property placeholder for the session factory name
-    applicationContext.getBeanDefinition("mapperScanner").getPropertyValues().add("sqlSessionFactoryBeanName",
-        "${sqlSessionFactoryBeanNameProperty}");
+    applicationContext.getBeanDefinition("mapperScanner").getPropertyValues().add("sqlSessionFactoryBeanName","${sqlSessionFactoryBeanNameProperty}");
 
     Properties props = new java.util.Properties();
     props.put("sqlSessionFactoryBeanNameProperty", "sqlSessionFactory2");
@@ -218,11 +212,8 @@ class MapperScannerConfigurerTest {
     GenericBeanDefinition definition = new GenericBeanDefinition();
     definition.setBeanClass(Object.class);
     applicationContext.registerBeanDefinition("mapperInterface", definition);
-
     startContext();
-
-    assertThat(applicationContext.getBean("mapperInterface").getClass())
-        .as("scanner should not overwrite existing bean definition").isSameAs(Object.class);
+    assertThat(applicationContext.getBean("mapperInterface").getClass()).as("scanner should not overwrite existing bean definition").isSameAs(Object.class);
   }
 
   @Test
@@ -277,11 +268,8 @@ class MapperScannerConfigurerTest {
   @Test
   void testScanWithMapperFactoryBeanClass() {
     DummyMapperFactoryBean.clear();
-    applicationContext.getBeanDefinition("mapperScanner").getPropertyValues().add("mapperFactoryBeanClass",
-        DummyMapperFactoryBean.class);
-
+    applicationContext.getBeanDefinition("mapperScanner").getPropertyValues().add("mapperFactoryBeanClass", DummyMapperFactoryBean.class);
     startContext();
-
     applicationContext.getBean("mapperInterface");
     applicationContext.getBean("mapperSubinterface");
     applicationContext.getBean("mapperChildInterface");
