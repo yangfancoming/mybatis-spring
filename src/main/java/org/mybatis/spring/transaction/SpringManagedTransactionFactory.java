@@ -16,22 +16,18 @@ import org.apache.ibatis.transaction.TransactionFactory;
  */
 public class SpringManagedTransactionFactory implements TransactionFactory {
 
-
   @Override
   public Transaction newTransaction(DataSource dataSource, TransactionIsolationLevel level, boolean autoCommit) {
     return new SpringManagedTransaction(dataSource);
   }
-
 
   @Override
   public Transaction newTransaction(Connection conn) {
     throw new UnsupportedOperationException("New Spring transactions require a DataSource");
   }
 
-
   @Override
   public void setProperties(Properties props) {
     // not needed in this version
   }
-
 }

@@ -27,8 +27,6 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
  * {@link #write(List)} is called inside a transaction. If it is not each statement call will be autocommitted and
  * flushStatements will return no results. The writer is thread safe after its properties are set (normal singleton
  * behavior), so it can be used to write in multiple concurrent transactions.
- * 
- * @author Eduardo Macarron
  * @since 1.1.0
  */
 public class MyBatisBatchItemWriter<T> implements ItemWriter<T>, InitializingBean {
@@ -44,11 +42,8 @@ public class MyBatisBatchItemWriter<T> implements ItemWriter<T>, InitializingBea
   private Converter<T, ?> itemToParameterConverter = new PassThroughConverter<>();
 
   /**
-   * Public setter for the flag that determines whether an assertion is made that all items cause at least one row to be
-   * updated.
-   * 
-   * @param assertUpdates
-   *          the flag to set. Defaults to true;
+   * Public setter for the flag that determines whether an assertion is made that all items cause at least one row to be updated.
+   * @param assertUpdates the flag to set. Defaults to true;
    */
   public void setAssertUpdates(boolean assertUpdates) {
     this.assertUpdates = assertUpdates;
@@ -56,9 +51,7 @@ public class MyBatisBatchItemWriter<T> implements ItemWriter<T>, InitializingBea
 
   /**
    * Public setter for {@link SqlSessionFactory} for injection purposes.
-   * 
-   * @param sqlSessionFactory
-   *          a factory object for the {@link SqlSession}.
+   * @param sqlSessionFactory a factory object for the {@link SqlSession}.
    */
   public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
     if (sqlSessionTemplate == null) {
@@ -68,9 +61,7 @@ public class MyBatisBatchItemWriter<T> implements ItemWriter<T>, InitializingBea
 
   /**
    * Public setter for the {@link SqlSessionTemplate}.
-   * 
-   * @param sqlSessionTemplate
-   *          a template object for use the {@link SqlSession} on the Spring managed transaction
+   * @param sqlSessionTemplate  a template object for use the {@link SqlSession} on the Spring managed transaction
    */
   public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
     this.sqlSessionTemplate = sqlSessionTemplate;
@@ -78,20 +69,15 @@ public class MyBatisBatchItemWriter<T> implements ItemWriter<T>, InitializingBea
 
   /**
    * Public setter for the statement id identifying the statement in the SqlMap configuration file.
-   * 
-   * @param statementId
-   *          the id for the statement
+   * @param statementId  the id for the statement
    */
   public void setStatementId(String statementId) {
     this.statementId = statementId;
   }
 
   /**
-   * Public setter for a converter that converting item to parameter object. By default implementation, an item does not
-   * convert.
-   * 
-   * @param itemToParameterConverter
-   *          a converter that converting item to parameter object
+   * Public setter for a converter that converting item to parameter object. By default implementation, an item does not convert.
+   * @param itemToParameterConverter a converter that converting item to parameter object
    * @since 2.0.0
    */
   public void setItemToParameterConverter(Converter<T, ?> itemToParameterConverter) {
@@ -110,7 +96,6 @@ public class MyBatisBatchItemWriter<T> implements ItemWriter<T>, InitializingBea
     notNull(itemToParameterConverter, "A itemToParameterConverter is required.");
   }
 
-
   @Override
   public void write(final List<? extends T> items) {
 
@@ -125,17 +110,13 @@ public class MyBatisBatchItemWriter<T> implements ItemWriter<T>, InitializingBea
 
       if (assertUpdates) {
         if (results.size() != 1) {
-          throw new InvalidDataAccessResourceUsageException("Batch execution returned invalid results. "
-              + "Expected 1 but number of BatchResult objects returned was " + results.size());
+          throw new InvalidDataAccessResourceUsageException("Batch execution returned invalid results. " + "Expected 1 but number of BatchResult objects returned was " + results.size());
         }
-
         int[] updateCounts = results.get(0).getUpdateCounts();
-
         for (int i = 0; i < updateCounts.length; i++) {
           int value = updateCounts[i];
           if (value == 0) {
-            throw new EmptyResultDataAccessException(
-                "Item " + i + " of " + updateCounts.length + " did not update any rows: [" + items.get(i) + "]", 1);
+            throw new EmptyResultDataAccessException("Item " + i + " of " + updateCounts.length + " did not update any rows: [" + items.get(i) + "]", 1);
           }
         }
       }
@@ -143,12 +124,10 @@ public class MyBatisBatchItemWriter<T> implements ItemWriter<T>, InitializingBea
   }
 
   private static class PassThroughConverter<T> implements Converter<T, T> {
-
     @Override
     public T convert(T source) {
       return source;
     }
-
   }
 
 }

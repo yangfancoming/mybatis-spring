@@ -32,33 +32,24 @@ import org.springframework.util.StringUtils;
  * BeanDefinitionRegistryPostProcessor that searches recursively starting from a base package for interfaces and
  * registers them as {@code MapperFactoryBean}. Note that only interfaces with at least one method will be registered;
  * concrete classes will be ignored.
- * <p>
  * This class was a {code BeanFactoryPostProcessor} until 1.0.1 version. It changed to
- * {@code BeanDefinitionRegistryPostProcessor} in 1.0.2. See https://jira.springsource.org/browse/SPR-8269 for the
- * details.
- * <p>
+ * {@code BeanDefinitionRegistryPostProcessor} in 1.0.2. See https://jira.springsource.org/browse/SPR-8269 for the details.
  * The {@code basePackage} property can contain more than one package name, separated by either commas or semicolons.
- * <p>
  * This class supports filtering the mappers created by either specifying a marker interface or an annotation. The
  * {@code annotationClass} property specifies an annotation to search for. The {@code markerInterface} property
  * specifies a parent interface to search for. If both properties are specified, mappers are added for interfaces that
  * match <em>either</em> criteria. By default, these two properties are null, so all interfaces in the given
  * {@code basePackage} are added as mappers.
- * <p>
  * This configurer enables autowire for all the beans that it creates so that they are automatically autowired with the
  * proper {@code SqlSessionFactory} or {@code SqlSessionTemplate}. If there is more than one {@code SqlSessionFactory}
  * in the application, however, autowiring cannot be used. In this case you must explicitly specify either an
  * {@code SqlSessionFactory} or an {@code SqlSessionTemplate} to use via the <em>bean name</em> properties. Bean names
- * are used rather than actual objects because Spring does not initialize property placeholders until after this class
- * is processed.
- * <p>
+ * are used rather than actual objects because Spring does not initialize property placeholders until after this class is processed.
  * Passing in an actual object which may require placeholders (i.e. DB user password) will fail. Using bean names defers
  * actual object creation until later in the startup process, after all placeholder substitution is completed. However,
  * note that this configurer does support property placeholders of its <em>own</em> properties. The
  * <code>basePackage</code> and bean name properties all support <code>${property}</code> style substitution.
- * <p>
  * Configuration sample:
- *
  * <pre class="code">
  * {@code
  *   <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -68,12 +59,10 @@ import org.springframework.util.StringUtils;
  *   </bean>
  * }
  * </pre>
- *
  * @see MapperFactoryBean
  * @see ClassPathMapperScanner
  */
-public class MapperScannerConfigurer
-    implements BeanDefinitionRegistryPostProcessor, InitializingBean, ApplicationContextAware, BeanNameAware {
+public class MapperScannerConfigurer implements BeanDefinitionRegistryPostProcessor, InitializingBean, ApplicationContextAware, BeanNameAware {
 
   private String basePackage;
 
@@ -105,11 +94,8 @@ public class MapperScannerConfigurer
 
   /**
    * This property lets you set the base package for your mapper interface files. You can set more than one package by
-   * using a semicolon or comma as a separator. Mappers will be searched for recursively starting in the specified
-   * package(s).
-   * 
-   * @param basePackage
-   *          base package name
+   * using a semicolon or comma as a separator. Mappers will be searched for recursively starting in the specified package(s).
+   * @param basePackage  base package name
    */
   public void setBasePackage(String basePackage) {
     this.basePackage = basePackage;
@@ -117,9 +103,7 @@ public class MapperScannerConfigurer
 
   /**
    * Same as {@code MapperFactoryBean#setAddToConfig(boolean)}.
-   * 
-   * @param addToConfig
-   *          a flag that whether add mapper to MyBatis or not
+   * @param addToConfig  a flag that whether add mapper to MyBatis or not
    * @see MapperFactoryBean#setAddToConfig(boolean)
    */
   public void setAddToConfig(boolean addToConfig) {
@@ -128,9 +112,7 @@ public class MapperScannerConfigurer
 
   /**
    * Set whether enable lazy initialization for mapper bean. Default is {@code false}.
-   * 
-   * @param lazyInitialization
-   *          Set the @{code true} to enable
+   * @param lazyInitialization Set the @{code true} to enable
    * @since 2.0.2
    */
   public void setLazyInitialization(String lazyInitialization) {
@@ -148,8 +130,7 @@ public class MapperScannerConfigurer
 
   /**
    * This property specifies the parent that the scanner will search for. The scanner will register all interfaces in
-   * the base package that also have the specified interface class as a parent. Note this can be combined with
-   * annotationClass.
+   * the base package that also have the specified interface class as a parent. Note this can be combined with annotationClass.
    * @param superClass parent class
    */
   public void setMarkerInterface(Class<?> superClass) {
@@ -159,10 +140,8 @@ public class MapperScannerConfigurer
   /**
    * Specifies which {@code SqlSessionTemplate} to use in the case that there is more than one in the spring context.
    * Usually this is only needed when you have more than one datasource.
-   * 
    * @deprecated Use {@link #setSqlSessionTemplateBeanName(String)} instead
-   * @param sqlSessionTemplate
-   *          a template of SqlSession
+   * @param sqlSessionTemplate  a template of SqlSession
    */
   @Deprecated
   public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
@@ -172,12 +151,9 @@ public class MapperScannerConfigurer
   /**
    * Specifies which {@code SqlSessionTemplate} to use in the case that there is more than one in the spring context.
    * Usually this is only needed when you have more than one datasource. Note bean names are used, not bean references.
-   * This is because the scanner loads early during the start process and it is too early to build mybatis object
-   * instances.
-   * 
+   * This is because the scanner loads early during the start process and it is too early to build mybatis object instances.
    * @since 1.1.0
-   * @param sqlSessionTemplateName
-   *          Bean name of the {@code SqlSessionTemplate}
+   * @param sqlSessionTemplateName Bean name of the {@code SqlSessionTemplate}
    */
   public void setSqlSessionTemplateBeanName(String sqlSessionTemplateName) {
     this.sqlSessionTemplateBeanName = sqlSessionTemplateName;
@@ -186,10 +162,8 @@ public class MapperScannerConfigurer
   /**
    * Specifies which {@code SqlSessionFactory} to use in the case that there is more than one in the spring context.
    * Usually this is only needed when you have more than one datasource.
-   * 
    * @deprecated Use {@link #setSqlSessionFactoryBeanName(String)} instead.
-   * @param sqlSessionFactory
-   *          a factory of SqlSession
+   * @param sqlSessionFactory  a factory of SqlSession
    */
   @Deprecated
   public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
@@ -227,7 +201,6 @@ public class MapperScannerConfigurer
     this.mapperFactoryBeanClass = mapperFactoryBeanClass;
   }
 
-
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) {
     this.applicationContext = applicationContext;
@@ -241,7 +214,6 @@ public class MapperScannerConfigurer
 
   /**
    * Gets beanNameGenerator to be used while running the scanner.
-   * 
    * @return the beanNameGenerator BeanNameGenerator that has been configured
    * @since 1.2.0
    */
@@ -251,9 +223,7 @@ public class MapperScannerConfigurer
 
   /**
    * Sets beanNameGenerator to be used while running the scanner.
-   * 
-   * @param nameGenerator
-   *          the beanNameGenerator to set
+   * @param nameGenerator the beanNameGenerator to set
    * @since 1.2.0
    */
   public void setNameGenerator(BeanNameGenerator nameGenerator) {
@@ -278,7 +248,6 @@ public class MapperScannerConfigurer
     if (this.processPropertyPlaceHolders) {
       processPropertyPlaceHolders();
     }
-
     ClassPathMapperScanner scanner = new ClassPathMapperScanner(registry);
     scanner.setAddToConfig(this.addToConfig);
     scanner.setAnnotationClass(this.annotationClass);
@@ -294,8 +263,7 @@ public class MapperScannerConfigurer
       scanner.setLazyInitialization(Boolean.valueOf(lazyInitialization));
     }
     scanner.registerFilters();
-    scanner.scan(
-        StringUtils.tokenizeToStringArray(this.basePackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
+    scanner.scan(StringUtils.tokenizeToStringArray(this.basePackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
   }
 
   /*
@@ -334,13 +302,10 @@ public class MapperScannerConfigurer
 
   private String updatePropertyValue(String propertyName, PropertyValues values) {
     PropertyValue property = values.getPropertyValue(propertyName);
-
     if (property == null) {
       return null;
     }
-
     Object value = property.getValue();
-
     if (value == null) {
       return null;
     } else if (value instanceof String) {

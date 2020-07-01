@@ -69,5 +69,4 @@ public class MyBatisExceptionTranslator implements PersistenceExceptionTranslato
       this.exceptionTranslator = new SQLErrorCodeSQLExceptionTranslator(this.dataSource);
     }
   }
-
 }

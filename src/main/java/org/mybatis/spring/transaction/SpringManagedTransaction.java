@@ -57,8 +57,7 @@ public class SpringManagedTransaction implements Transaction {
     this.connection = DataSourceUtils.getConnection(this.dataSource);
     this.autoCommit = this.connection.getAutoCommit();
     this.isConnectionTransactional = DataSourceUtils.isConnectionTransactional(this.connection, this.dataSource);
-    LOGGER.debug(() -> "JDBC Connection [" + this.connection + "] will"
-        + (this.isConnectionTransactional ? " " : " not ") + "be managed by Spring");
+    LOGGER.debug(() -> "JDBC Connection [" + this.connection + "] will" + (this.isConnectionTransactional ? " " : " not ") + "be managed by Spring");
   }
 
 
@@ -70,7 +69,6 @@ public class SpringManagedTransaction implements Transaction {
     }
   }
 
-
   @Override
   public void rollback() throws SQLException {
     if (this.connection != null && !this.isConnectionTransactional && !this.autoCommit) {
@@ -79,12 +77,10 @@ public class SpringManagedTransaction implements Transaction {
     }
   }
 
-
   @Override
   public void close() {
     DataSourceUtils.releaseConnection(this.connection, this.dataSource);
   }
-
 
   @Override
   public Integer getTimeout() {
@@ -94,5 +90,4 @@ public class SpringManagedTransaction implements Transaction {
     }
     return null;
   }
-
 }

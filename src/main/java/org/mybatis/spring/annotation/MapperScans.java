@@ -13,10 +13,7 @@ import java.lang.annotation.Target;
 /**
  * The Container annotation that aggregates several {@link MapperScan} annotations. Can be used natively, declaring
  * several nested {@link MapperScan} annotations. Can also be used in conjunction with Java 8's support for repeatable
- * annotations, where {@link MapperScan} can simply be declared several times on the same method, implicitly generating
- * this container annotation.
- * 
- * @author Kazuki Shimizu
+ * annotations, where {@link MapperScan} can simply be declared several times on the same method, implicitly generating this container annotation.
  * @since 2.0.0
  * @see MapperScan
  */

@@ -16,8 +16,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.batch.item.support.AbstractItemCountingItemStreamItemReader;
 import org.springframework.beans.factory.InitializingBean;
 
-public class MyBatisCursorItemReader<T> extends AbstractItemCountingItemStreamItemReader<T>
-    implements InitializingBean {
+public class MyBatisCursorItemReader<T> extends AbstractItemCountingItemStreamItemReader<T>  implements InitializingBean {
 
   private String queryId;
 
@@ -67,7 +66,6 @@ public class MyBatisCursorItemReader<T> extends AbstractItemCountingItemStreamIt
 
   /**
    * Check mandatory properties.
-   * 
    * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
    */
   @Override
@@ -78,9 +76,7 @@ public class MyBatisCursorItemReader<T> extends AbstractItemCountingItemStreamIt
 
   /**
    * Public setter for {@link SqlSessionFactory} for injection purposes.
-   * 
-   * @param sqlSessionFactory
-   *          a factory object for the {@link SqlSession}.
+   * @param sqlSessionFactory a factory object for the {@link SqlSession}.
    */
   public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
     this.sqlSessionFactory = sqlSessionFactory;
@@ -88,9 +84,7 @@ public class MyBatisCursorItemReader<T> extends AbstractItemCountingItemStreamIt
 
   /**
    * Public setter for the statement id identifying the statement in the SqlMap configuration file.
-   * 
-   * @param queryId
-   *          the id for the statement
+   * @param queryId  the id for the statement
    */
   public void setQueryId(String queryId) {
     this.queryId = queryId;
@@ -98,9 +92,7 @@ public class MyBatisCursorItemReader<T> extends AbstractItemCountingItemStreamIt
 
   /**
    * The parameter values to be used for the query execution.
-   * 
-   * @param parameterValues
-   *          the values keyed by the parameter named used in the query string.
+   * @param parameterValues the values keyed by the parameter named used in the query string.
    */
   public void setParameterValues(Map<String, Object> parameterValues) {
     this.parameterValues = parameterValues;

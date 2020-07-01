@@ -45,7 +45,6 @@ import org.springframework.dao.support.PersistenceExceptionTranslator;
  * </bean>
  * }
  * </pre>
- *
  * @see SqlSessionFactory
  * @see MyBatisExceptionTranslator
  */
@@ -79,8 +78,7 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
    *          an executor type on session
    */
   public SqlSessionTemplate(SqlSessionFactory sqlSessionFactory, ExecutorType executorType) {
-    this(sqlSessionFactory, executorType,
-        new MyBatisExceptionTranslator(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(), true));
+    this(sqlSessionFactory, executorType, new MyBatisExceptionTranslator(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(), true));
   }
 
   /**
@@ -88,25 +86,17 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
    * custom {@code SQLExceptionTranslator} can be provided as an argument so any {@code PersistenceException} thrown by
    * MyBatis can be custom translated to a {@code RuntimeException} The {@code SQLExceptionTranslator} can also be null
    * and thus no exception translation will be done and MyBatis exceptions will be thrown
-   *
-   * @param sqlSessionFactory
-   *          a factory of SqlSession
-   * @param executorType
-   *          an executor type on session
-   * @param exceptionTranslator
-   *          a translator of exception
+   * @param sqlSessionFactory  a factory of SqlSession
+   * @param executorType  an executor type on session
+   * @param exceptionTranslator  a translator of exception
    */
-  public SqlSessionTemplate(SqlSessionFactory sqlSessionFactory, ExecutorType executorType,
-      PersistenceExceptionTranslator exceptionTranslator) {
-
+  public SqlSessionTemplate(SqlSessionFactory sqlSessionFactory, ExecutorType executorType, PersistenceExceptionTranslator exceptionTranslator) {
     notNull(sqlSessionFactory, "Property 'sqlSessionFactory' is required");
     notNull(executorType, "Property 'executorType' is required");
-
     this.sqlSessionFactory = sqlSessionFactory;
     this.executorType = executorType;
     this.exceptionTranslator = exceptionTranslator;
-    this.sqlSessionProxy = (SqlSession) newProxyInstance(SqlSessionFactory.class.getClassLoader(),
-        new Class[] { SqlSession.class }, new SqlSessionInterceptor());
+    this.sqlSessionProxy = (SqlSession) newProxyInstance(SqlSessionFactory.class.getClassLoader(), new Class[] { SqlSession.class }, new SqlSessionInterceptor());
   }
 
   public SqlSessionFactory getSqlSessionFactory() {
@@ -256,10 +246,7 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
     this.sqlSessionProxy.clearCache();
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   */
+
   @Override
   public Configuration getConfiguration() {
     return this.sqlSessionFactory.getConfiguration();
@@ -271,8 +258,6 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
   }
 
   /**
-   * {@inheritDoc}
-   * 
    * @since 1.0.2
    */
   @Override
@@ -282,7 +267,6 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
 
   /**
    * Allow gently dispose bean:
-   * 
    * <pre>
    * {@code
    *
@@ -314,13 +298,11 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-      SqlSession sqlSession = getSqlSession(SqlSessionTemplate.this.sqlSessionFactory,
-          SqlSessionTemplate.this.executorType, SqlSessionTemplate.this.exceptionTranslator);
+      SqlSession sqlSession = getSqlSession(SqlSessionTemplate.this.sqlSessionFactory,SqlSessionTemplate.this.executorType, SqlSessionTemplate.this.exceptionTranslator);
       try {
         Object result = method.invoke(sqlSession, args);
         if (!isSqlSessionTransactional(sqlSession, SqlSessionTemplate.this.sqlSessionFactory)) {
-          // force commit even on non-dirty sessions because some databases require
-          // a commit/rollback before calling close()
+          // force commit even on non-dirty sessions because some databases require a commit/rollback before calling close()
           sqlSession.commit(true);
         }
         return result;
@@ -330,8 +312,7 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
           // release the connection to avoid a deadlock if the translator is no loaded. See issue #22
           closeSqlSession(sqlSession, SqlSessionTemplate.this.sqlSessionFactory);
           sqlSession = null;
-          Throwable translated = SqlSessionTemplate.this.exceptionTranslator
-              .translateExceptionIfPossible((PersistenceException) unwrapped);
+          Throwable translated = SqlSessionTemplate.this.exceptionTranslator.translateExceptionIfPossible((PersistenceException) unwrapped);
           if (translated != null) {
             unwrapped = translated;
           }
@@ -344,5 +325,4 @@ public class SqlSessionTemplate implements SqlSession, DisposableBean {
       }
     }
   }
-
 }

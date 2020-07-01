@@ -20,7 +20,6 @@ import org.w3c.dom.Element;
 
 /**
  * A {#code BeanDefinitionParser} that handles the element scan of the MyBatis. namespace
- * 
  * @since 1.2.0
  * @see MapperFactoryBean
  * @see ClassPathMapperScanner
@@ -39,23 +38,18 @@ public class MapperScannerBeanDefinitionParser extends AbstractBeanDefinitionPar
   private static final String ATTRIBUTE_LAZY_INITIALIZATION = "lazy-initialization";
 
   /**
-   * {@inheritDoc}
-   * 
    * @since 2.0.2
    */
   @Override
   protected AbstractBeanDefinition parseInternal(Element element, ParserContext parserContext) {
     BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(MapperScannerConfigurer.class);
-
     ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
-
     builder.addPropertyValue("processPropertyPlaceHolders", true);
     try {
       String annotationClassName = element.getAttribute(ATTRIBUTE_ANNOTATION);
       if (StringUtils.hasText(annotationClassName)) {
         @SuppressWarnings("unchecked")
-        Class<? extends Annotation> annotationClass = (Class<? extends Annotation>) classLoader
-            .loadClass(annotationClassName);
+        Class<? extends Annotation> annotationClass = (Class<? extends Annotation>) classLoader.loadClass(annotationClassName);
         builder.addPropertyValue("annotationClass", annotationClass);
       }
       String markerInterfaceClassName = element.getAttribute(ATTRIBUTE_MARKER_INTERFACE);
@@ -72,8 +66,7 @@ public class MapperScannerBeanDefinitionParser extends AbstractBeanDefinitionPar
       String mapperFactoryBeanClassName = element.getAttribute(ATTRIBUTE_MAPPER_FACTORY_BEAN_CLASS);
       if (StringUtils.hasText(mapperFactoryBeanClassName)) {
         @SuppressWarnings("unchecked")
-        Class<? extends MapperFactoryBean> mapperFactoryBeanClass = (Class<? extends MapperFactoryBean>) classLoader
-            .loadClass(mapperFactoryBeanClassName);
+        Class<? extends MapperFactoryBean> mapperFactoryBeanClass = (Class<? extends MapperFactoryBean>) classLoader.loadClass(mapperFactoryBeanClassName);
         builder.addPropertyValue("mapperFactoryBeanClass", mapperFactoryBeanClass);
       }
     } catch (Exception ex) {
@@ -85,18 +78,14 @@ public class MapperScannerBeanDefinitionParser extends AbstractBeanDefinitionPar
     builder.addPropertyValue("sqlSessionFactoryBeanName", element.getAttribute(ATTRIBUTE_FACTORY_REF));
     builder.addPropertyValue("lazyInitialization", element.getAttribute(ATTRIBUTE_LAZY_INITIALIZATION));
     builder.addPropertyValue("basePackage", element.getAttribute(ATTRIBUTE_BASE_PACKAGE));
-
     return builder.getBeanDefinition();
   }
 
   /**
-   * {@inheritDoc}
-   * 
    * @since 2.0.2
    */
   @Override
   protected boolean shouldGenerateIdAsFallback() {
     return true;
   }
-
 }

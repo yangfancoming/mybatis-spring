@@ -27,7 +27,6 @@ import java.util.Set;
  * {@code markerInterface}. If an {@code annotationClass} and/or {@code markerInterface} is specified, only the
  * specified types will be searched (searching for all interfaces will be disabled). This functionality was previously a
  * private class of {@link MapperScannerConfigurer}, but was broken out in version 1.2.0.
- * 
  * @see MapperFactoryBean
  * @since 1.2.0
  */
