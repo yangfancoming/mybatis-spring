@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package org.mybatis.spring.config;
 
@@ -19,6 +34,7 @@ import org.w3c.dom.Element;
 
 /**
  * A {#code BeanDefinitionParser} that handles the element scan of the MyBatis. namespace
+ * 
  * @since 1.2.0
  * @see MapperFactoryBean
  * @see ClassPathMapperScanner
@@ -38,6 +54,7 @@ public class MapperScannerBeanDefinitionParser extends AbstractBeanDefinitionPar
 
   /**
    * {@inheritDoc}
+   * 
    * @since 2.0.2
    */
   @Override
@@ -51,7 +68,8 @@ public class MapperScannerBeanDefinitionParser extends AbstractBeanDefinitionPar
       String annotationClassName = element.getAttribute(ATTRIBUTE_ANNOTATION);
       if (StringUtils.hasText(annotationClassName)) {
         @SuppressWarnings("unchecked")
-        Class<? extends Annotation> annotationClass = (Class<? extends Annotation>) classLoader.loadClass(annotationClassName);
+        Class<? extends Annotation> annotationClass = (Class<? extends Annotation>) classLoader
+            .loadClass(annotationClassName);
         builder.addPropertyValue("annotationClass", annotationClass);
       }
       String markerInterfaceClassName = element.getAttribute(ATTRIBUTE_MARKER_INTERFACE);
@@ -68,7 +86,8 @@ public class MapperScannerBeanDefinitionParser extends AbstractBeanDefinitionPar
       String mapperFactoryBeanClassName = element.getAttribute(ATTRIBUTE_MAPPER_FACTORY_BEAN_CLASS);
       if (StringUtils.hasText(mapperFactoryBeanClassName)) {
         @SuppressWarnings("unchecked")
-        Class<? extends MapperFactoryBean> mapperFactoryBeanClass = (Class<? extends MapperFactoryBean>) classLoader.loadClass(mapperFactoryBeanClassName);
+        Class<? extends MapperFactoryBean> mapperFactoryBeanClass = (Class<? extends MapperFactoryBean>) classLoader
+            .loadClass(mapperFactoryBeanClassName);
         builder.addPropertyValue("mapperFactoryBeanClass", mapperFactoryBeanClass);
       }
     } catch (Exception ex) {
@@ -86,6 +105,7 @@ public class MapperScannerBeanDefinitionParser extends AbstractBeanDefinitionPar
 
   /**
    * {@inheritDoc}
+   * 
    * @since 2.0.2
    */
   @Override

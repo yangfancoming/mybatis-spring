@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package org.mybatis.spring.mapper;
 
@@ -37,7 +52,8 @@ public class MapperScannerConfigurerTest {
   public void setupContext() {
     applicationContext = new GenericApplicationContext();
 
-    // add the mapper scanner as a bean definition rather than explicitly setting a postProcessor on the context so initialization follows the same code path as reading from an XML config file
+    // add the mapper scanner as a bean definition rather than explicitly setting a postProcessor on the context so
+    // initialization follows the same code path as reading from an XML config file
     // 将mapper scanner添加为bean定义，而不是在上下文中显式设置后处理器，以便初始化遵循与从xml配置文件读取相同的代码路径
     GenericBeanDefinition definition = new GenericBeanDefinition();
     definition.setBeanClass(MapperScannerConfigurer.class);
@@ -172,7 +188,8 @@ public class MapperScannerConfigurerTest {
     constructorArgs.addGenericArgumentValue(new RuntimeBeanReference("sqlSessionFactory"));
     definition.setConstructorArgumentValues(constructorArgs);
     applicationContext.registerBeanDefinition("sqlSessionTemplate", definition);
-    applicationContext.getBeanDefinition("mapperScanner").getPropertyValues().add("sqlSessionTemplateBeanName","sqlSessionTemplate");
+    applicationContext.getBeanDefinition("mapperScanner").getPropertyValues().add("sqlSessionTemplateBeanName",
+        "sqlSessionTemplate");
     startContext();
 
     // all interfaces with methods should be loaded
@@ -187,7 +204,8 @@ public class MapperScannerConfigurerTest {
     setupSqlSessionFactory("sqlSessionFactory2");
 
     // use a property placeholder for the session factory name
-    applicationContext.getBeanDefinition("mapperScanner").getPropertyValues().add("sqlSessionFactoryBeanName","${sqlSessionFactoryBeanNameProperty}");
+    applicationContext.getBeanDefinition("mapperScanner").getPropertyValues().add("sqlSessionFactoryBeanName",
+        "${sqlSessionFactoryBeanNameProperty}");
 
     Properties props = new java.util.Properties();
     props.put("sqlSessionFactoryBeanNameProperty", "sqlSessionFactory2");
@@ -213,7 +231,8 @@ public class MapperScannerConfigurerTest {
     definition.setBeanClass(Object.class);
     applicationContext.registerBeanDefinition("mapperInterface", definition);
     startContext();
-    assertThat(applicationContext.getBean("mapperInterface").getClass()).as("scanner should not overwrite existing bean definition").isSameAs(Object.class);
+    assertThat(applicationContext.getBean("mapperInterface").getClass())
+        .as("scanner should not overwrite existing bean definition").isSameAs(Object.class);
   }
 
   @Test
@@ -268,7 +287,8 @@ public class MapperScannerConfigurerTest {
   @Test
   void testScanWithMapperFactoryBeanClass() {
     DummyMapperFactoryBean.clear();
-    applicationContext.getBeanDefinition("mapperScanner").getPropertyValues().add("mapperFactoryBeanClass", DummyMapperFactoryBean.class);
+    applicationContext.getBeanDefinition("mapperScanner").getPropertyValues().add("mapperFactoryBeanClass",
+        DummyMapperFactoryBean.class);
     startContext();
     applicationContext.getBean("mapperInterface");
     applicationContext.getBean("mapperSubinterface");

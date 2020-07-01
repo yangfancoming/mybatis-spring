@@ -1,23 +1,35 @@
+/**
+ * Copyright 2010-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package org.mybatis.spring;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
-
-import java.sql.SQLException;
-
-import org.apache.ibatis.plugin.Interceptor;
+import com.mockrunner.mock.jdbc.MockConnection;
+import com.mockrunner.mock.jdbc.MockResultSet;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
-import com.mockrunner.mock.jdbc.MockConnection;
-import com.mockrunner.mock.jdbc.MockResultSet;
+import java.sql.SQLException;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public abstract class AbstractMyBatisSpringTest {
 
@@ -43,11 +55,8 @@ public abstract class AbstractMyBatisSpringTest {
     // note running without SqlSessionFactoryBean.configLocation set => default configuration
     factoryBean.setDataSource(dataSource);
     factoryBean.setPlugins(executorInterceptor);
-
     exceptionTranslator = new MyBatisExceptionTranslator(dataSource, true);
-
     sqlSessionFactory = factoryBean.getObject();
-
     txManager = new DataSourceTransactionManager(dataSource);
   }
 
