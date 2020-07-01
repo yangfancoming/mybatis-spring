@@ -1,18 +1,4 @@
-/**
- * Copyright 2010-2020 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 package org.mybatis.spring.mapper;
 
@@ -27,7 +13,6 @@ import org.springframework.beans.factory.FactoryBean;
 /**
  * BeanFactory that enables injection of MyBatis mapper interfaces. It can be set up with a SqlSessionFactory or a
  * pre-configured SqlSessionTemplate.
- * <p>
  * Sample configuration:
  *
  * <pre class="code">
@@ -45,9 +30,7 @@ import org.springframework.beans.factory.FactoryBean;
  *   </bean>
  * }
  * </pre>
- * <p>
  * Note that this factory can only inject <em>interfaces</em>, not concrete classes.
- * 
  * @see SqlSessionTemplate
  */
 public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements FactoryBean<T> {
@@ -64,15 +47,11 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
     this.mapperInterface = mapperInterface;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   protected void checkDaoConfig() {
     super.checkDaoConfig();
-
     notNull(this.mapperInterface, "Property 'mapperInterface' is required");
-
     Configuration configuration = getSqlSession().getConfiguration();
     if (this.addToConfig && !configuration.hasMapper(this.mapperInterface)) {
       try {
@@ -86,25 +65,16 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public T getObject() throws Exception {
     return getSqlSession().getMapper(this.mapperInterface);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Class<T> getObjectType() {
     return this.mapperInterface;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean isSingleton() {
     return true;
@@ -113,9 +83,7 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
   // ------------- mutators --------------
   /**
    * Sets the mapper interface of the MyBatis mapper
-   * 
-   * @param mapperInterface
-   *          class of the interface
+   * @param mapperInterface class of the interface
    */
   public void setMapperInterface(Class<T> mapperInterface) {
     this.mapperInterface = mapperInterface;
@@ -123,7 +91,6 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
 
   /**
    * Return the mapper interface of the MyBatis mapper
-   * 
    * @return class of the interface
    */
   public Class<T> getMapperInterface() {
@@ -132,11 +99,8 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
 
   /**
    * If addToConfig is false the mapper will not be added to MyBatis. This means it must have been included in
-   * mybatis-config.xml. If it is true, the mapper will be added to MyBatis in the case it is not already registered. By
-   * default addToConfig is true.
-   * 
-   * @param addToConfig
-   *          a flag that whether add mapper to MyBatis or not
+   * mybatis-config.xml. If it is true, the mapper will be added to MyBatis in the case it is not already registered. By default addToConfig is true.
+   * @param addToConfig  a flag that whether add mapper to MyBatis or not
    */
   public void setAddToConfig(boolean addToConfig) {
     this.addToConfig = addToConfig;
@@ -144,7 +108,6 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
 
   /**
    * Return the flag for addition into MyBatis config.
-   * 
    * @return true if the mapper will be added to MyBatis in the case it is not already registered.
    */
   public boolean isAddToConfig() {

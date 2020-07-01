@@ -1,18 +1,4 @@
-/**
- * Copyright 2010-2020 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 package org.mybatis.spring.mapper;
 
@@ -81,9 +67,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
 
   /**
    * Set whether enable lazy initialization for mapper bean. Default is {@code false}.
-   * 
-   * @param lazyInitialization
-   *          Set the @{code true} to enable
+   * @param lazyInitialization  Set the @{code true} to enable
    * @since 2.0.2
    */
   public void setLazyInitialization(boolean lazyInitialization) {
@@ -120,9 +104,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
 
   /**
    * Set the {@code MapperFactoryBean} class.
-   * 
-   * @param mapperFactoryBeanClass
-   *          the {@code MapperFactoryBean} class
+   * @param mapperFactoryBeanClass the {@code MapperFactoryBean} class
    * @since 2.0.1
    */
   public void setMapperFactoryBeanClass(Class<? extends MapperFactoryBean> mapperFactoryBeanClass) {
@@ -172,14 +154,11 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
   @Override
   public Set<BeanDefinitionHolder> doScan(String... basePackages) {
     Set<BeanDefinitionHolder> beanDefinitions = super.doScan(basePackages);
-
     if (beanDefinitions.isEmpty()) {
-      LOGGER.warn(() -> "No MyBatis mapper was found in '" + Arrays.toString(basePackages)
-          + "' package. Please check your configuration.");
+      LOGGER.warn(() -> "No MyBatis mapper was found in '" + Arrays.toString(basePackages) + "' package. Please check your configuration.");
     } else {
       processBeanDefinitions(beanDefinitions);
     }
-
     return beanDefinitions;
   }
 
@@ -197,8 +176,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
 
       boolean explicitFactoryUsed = false;
       if (StringUtils.hasText(this.sqlSessionFactoryBeanName)) {
-        definition.getPropertyValues().add("sqlSessionFactory",
-            new RuntimeBeanReference(this.sqlSessionFactoryBeanName));
+        definition.getPropertyValues().add("sqlSessionFactory",new RuntimeBeanReference(this.sqlSessionFactoryBeanName));
         explicitFactoryUsed = true;
       } else if (this.sqlSessionFactory != null) {
         definition.getPropertyValues().add("sqlSessionFactory", this.sqlSessionFactory);
@@ -207,21 +185,17 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
 
       if (StringUtils.hasText(this.sqlSessionTemplateBeanName)) {
         if (explicitFactoryUsed) {
-          LOGGER.warn(
-              () -> "Cannot use both: sqlSessionTemplate and sqlSessionFactory together. sqlSessionFactory is ignored.");
+          LOGGER.warn(() -> "Cannot use both: sqlSessionTemplate and sqlSessionFactory together. sqlSessionFactory is ignored.");
         }
-        definition.getPropertyValues().add("sqlSessionTemplate",
-            new RuntimeBeanReference(this.sqlSessionTemplateBeanName));
+        definition.getPropertyValues().add("sqlSessionTemplate",new RuntimeBeanReference(this.sqlSessionTemplateBeanName));
         explicitFactoryUsed = true;
       } else if (this.sqlSessionTemplate != null) {
         if (explicitFactoryUsed) {
-          LOGGER.warn(
-              () -> "Cannot use both: sqlSessionTemplate and sqlSessionFactory together. sqlSessionFactory is ignored.");
+          LOGGER.warn(() -> "Cannot use both: sqlSessionTemplate and sqlSessionFactory together. sqlSessionFactory is ignored.");
         }
         definition.getPropertyValues().add("sqlSessionTemplate", this.sqlSessionTemplate);
         explicitFactoryUsed = true;
       }
-
       if (!explicitFactoryUsed) {
         LOGGER.debug(() -> "Enabling autowire by type for MapperFactoryBean with name '" + holder.getBeanName() + "'.");
         definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
@@ -230,26 +204,20 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
     return beanDefinition.getMetadata().isInterface() && beanDefinition.getMetadata().isIndependent();
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   protected boolean checkCandidate(String beanName, BeanDefinition beanDefinition) {
     if (super.checkCandidate(beanName, beanDefinition)) {
       return true;
     } else {
-      LOGGER.warn(() -> "Skipping MapperFactoryBean with name '" + beanName + "' and '"
-          + beanDefinition.getBeanClassName() + "' mapperInterface" + ". Bean already defined with the same name!");
+      LOGGER.warn(() -> "Skipping MapperFactoryBean with name '" + beanName + "' and '" + beanDefinition.getBeanClassName() + "' mapperInterface" + ". Bean already defined with the same name!");
       return false;
     }
   }
-
 }
